@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TfrxReport Version="4.9.32" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42816.3389862963" ReportOptions.Description.Text="" ReportOptions.LastChange="42816.4318861111" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="044C65667403980103546F70025808446174617365747301010C3500000020446174615365743D2266727844424450726F64537461742220446174615365744E616D653D22667278444250726F6453746174220000095661726961626C657301010C12000000204E616D653D22204261736963496E666F2200010C4C000000204E616D653D2250726F645374614474466F7250726F6A222056616C75653D2227323031372D30322D32302031333A31353A30312D2D2D2D323031372D30322D323031333A31353A303127220000055374796C650100">
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxReportPage Name="Page1" PaperWidth="210" PaperHeight="297" PaperSize="9" LeftMargin="10" RightMargin="10" TopMargin="10" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxReportTitle Name="ReportTitle1" Height="34.01577" Left="0" Top="18.89765" Width="718.1107">
+      <TfrxMemoView Name="Memo1" Left="0" Top="0" Width="718.1107" Height="30.23624" ShowHint="False" Color="8421504" Font.Charset="1" Font.Color="-16777208" Font.Height="-24" Font.Name="Arial" Font.Style="1" HAlign="haCenter" ParentFont="False" Text="生产统计"/>
+    </TfrxReportTitle>
+    <TfrxPageHeader Name="PageHeader1" Height="75.5906" Left="0" Top="75.5906" Width="718.1107">
+      <TfrxMemoView Name="Memo2" Left="3.77953" Top="11.33859" Width="204.09462" Height="22.67718" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-19" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="统计类别：生产订单"/>
+      <TfrxMemoView Name="Memo4" Left="207.87415" Top="11.33859" Width="506.45702" Height="22.67718" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-19" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="统计范围：[ProdStaDtForProj]"/>
+      <TfrxLineView Name="Line1" Left="3.77953" Top="37.7953" Width="710.55164" Height="0" ShowHint="False" Frame.Width="3" Diagonal="True"/>
+      <TfrxMemoView Name="Memo6" Left="7.55906" Top="52.91342" Width="181.41744" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="客户名称"/>
+      <TfrxMemoView Name="Memo7" Left="188.9765" Top="52.91342" Width="151.1812" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="工程名称"/>
+      <TfrxMemoView Name="Memo8" Left="340.1577" Top="52.91342" Width="113.3859" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="浇筑部位"/>
+      <TfrxMemoView Name="Memo9" Left="453.5436" Top="52.91342" Width="94.48825" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="累计车次"/>
+      <TfrxMemoView Name="Memo10" Left="548.03185" Top="52.91342" Width="90.70872" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="累计方量(方)"/>
+      <TfrxLineView Name="Line3" Left="3.77953" Top="49.13389" Width="710.55164" Height="0" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line4" Left="3.77953" Top="75.5906" Width="710.55164" Height="0" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line5" Left="3.77953" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line6" Left="188.9765" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line7" Left="340.1577" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line8" Left="453.5436" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line9" Left="548.03185" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line10" Left="638.74057" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line11" Left="714.33117" Top="49.13389" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+    </TfrxPageHeader>
+    <TfrxMasterData Name="MasterData1" Height="26.45671" Left="0" Top="211.65368" Width="718.1107" ColumnWidth="0" ColumnGap="0" DataSet="frxDBDProdStat" DataSetName="frxDBProdStat" RowCount="0">
+      <TfrxMemoView Name="Memo3" Left="7.55906" Top="3.77952999999999" Width="181.41744" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[frxDBProdStat.&#34;QryCustomer&#34;]"/>
+      <TfrxLineView Name="Line12" Left="3.77953" Top="0" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line13" Left="3.77953" Top="26.45671" Width="710.55164" Height="0" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line15" Left="714.33117" Top="0" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line14" Left="3.77953" Top="0" Width="710.55164" Height="0" ShowHint="False" Diagonal="True"/>
+      <TfrxLineView Name="Line16" Left="188.9765" Top="0" Width="0" Height="26.45671" ShowHint="False" Frame.Typ="1"/>
+      <TfrxMemoView Name="Memo11" Left="188.9765" Top="3.77952999999999" Width="151.1812" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[frxDBProdStat.&#34;QryProjName&#34;]"/>
+      <TfrxLineView Name="Line17" Left="340.1577" Top="0" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxMemoView Name="Memo12" Left="340.1577" Top="3.77952999999999" Width="113.3859" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[frxDBProdStat.&#34;QryConsPos&#34;]"/>
+      <TfrxLineView Name="Line18" Left="453.5436" Top="0" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxMemoView Name="Memo13" Left="453.5436" Top="3.77952999999999" Width="94.48825" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[frxDBProdStat.&#34;TruckCnt&#34;]"/>
+      <TfrxLineView Name="Line19" Left="548.03185" Top="0" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+      <TfrxMemoView Name="Memo14" Left="548.03185" Top="3.77952999999999" Width="90.70872" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[frxDBProdStat.&#34;QrySumAmnt&#34;]"/>
+      <TfrxLineView Name="Line20" Left="638.74057" Top="0" Width="0" Height="26.45671" ShowHint="False" Diagonal="True"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" Height="30.23624" Left="0" Top="298.58287" Width="718.1107">
+      <TfrxMemoView Name="Memo5" Left="616.06339" Top="7.55905999999999" Width="94.48825" Height="18.89765" ShowHint="False" Font.Charset="1" Font.Color="-16777208" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="Page[Page#]"/>
+      <TfrxLineView Name="Line2" Left="3.77953" Top="3.77953000000002" Width="710.55164" Height="0" ShowHint="False" Diagonal="True"/>
+    </TfrxPageFooter>
+  </TfrxReportPage>
+</TfrxReport>

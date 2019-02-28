@@ -1,0 +1,97 @@
+object FrmCommunicationSet: TFrmCommunicationSet
+  Left = 786
+  Top = 419
+  Width = 362
+  Height = 379
+  BorderIcons = [biSystemMenu]
+  Caption = #36890#35759#35774#32622
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -14
+  Font.Name = #23435#20307
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 14
+  object sPageControl1: TsPageControl
+    Left = 0
+    Top = 0
+    Width = 346
+    Height = 341
+    ActivePage = sTabShtTaskLst
+    Align = alClient
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = #23435#20307
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    SkinData.SkinSection = 'PAGECONTROL'
+    object sTabShtTaskLst: TsTabSheet
+      Caption = #19979#20301#26426#36890#35759
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -14
+      Font.Name = #23435#20307
+      Font.Style = []
+      ParentFont = False
+      SkinData.CustomColor = False
+      SkinData.CustomFont = False
+      object sGroupBox1: TsGroupBox
+        Left = 17
+        Top = 43
+        Width = 296
+        Height = 77
+        TabOrder = 0
+        SkinData.SkinSection = 'GROUPBOX'
+        Checked = False
+        object Label6: TLabel
+          Left = 16
+          Top = 33
+          Width = 56
+          Height = 14
+          Caption = #36890#35759#31471#21475
+          Transparent = True
+        end
+        object sCBSerialPortLst: TsComboBox
+          Left = 80
+          Top = 29
+          Width = 193
+          Height = 22
+          Alignment = taLeftJustify
+          BoundLabel.Indent = 0
+          BoundLabel.Font.Charset = DEFAULT_CHARSET
+          BoundLabel.Font.Color = clWindowText
+          BoundLabel.Font.Height = -11
+          BoundLabel.Font.Name = 'MS Sans Serif'
+          BoundLabel.Font.Style = []
+          BoundLabel.Layout = sclLeft
+          BoundLabel.MaxWidth = 0
+          BoundLabel.UseSkinColor = True
+          VerticalAlignment = taAlignTop
+          BiDiMode = bdLeftToRight
+          Color = clWhite
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -14
+          Font.Name = #23435#20307
+          Font.Style = []
+          ImeName = #20013#25991' ('#31616#20307') - '#25628#29399#25340#38899#36755#20837#27861
+          ItemHeight = 16
+          ItemIndex = -1
+          ParentBiDiMode = False
+          ParentFont = False
+          TabOrder = 0
+          OnChange = sCBSerialPortLstChange
+        end
+      end
+    end
+  end
+end

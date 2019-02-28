@@ -1,0 +1,782 @@
+unit UnitPersonnelMangement;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, sBitBtn, Grids, AdvObj, BaseGrid, AdvGrid,
+  DB, ADODB;
+
+type
+  TFrmPersonnelMangement = class(TForm)
+    grdPerson: TAdvStringGrid;
+    sBtnAddPerson: TsBitBtn;
+    sBitBtn2: TsBitBtn;
+    sBtnSaveExit: TsBitBtn;
+    ADOQuery1: TADOQuery;
+    grdPeimission: TAdvStringGrid;
+    sBtnDelPerson: TsBitBtn;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure grdPersonGetAlignment(Sender: TObject; ARow,
+      ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
+    procedure FormShow(Sender: TObject);
+    procedure grdPeimissionGetAlignment(Sender: TObject; ARow,
+      ACol: Integer; var HAlign: TAlignment; var VAlign: TVAlignment);
+    procedure sBtnAddPersonClick(Sender: TObject);
+    procedure grdPersonCanEditCell(Sender: TObject; ARow,
+      ACol: Integer; var CanEdit: Boolean);
+    procedure grdPersonClick(Sender: TObject);
+    procedure grdPeimissionCanEditCell(Sender: TObject; ARow,
+      ACol: Integer; var CanEdit: Boolean);
+    procedure grdPeimissionGetEditorType(Sender: TObject; ACol,
+      ARow: Integer; var AEditor: TEditorType);
+    procedure grdPeimissionCellsChanged(Sender: TObject; R: TRect);
+    procedure sBtnSaveExitClick(Sender: TObject);
+    procedure sBitBtn2Click(Sender: TObject);
+    procedure grdPersonCellsChanged(Sender: TObject; R: TRect);
+    procedure sBtnDelPersonClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure DspPersonnelLst();      //显示人员列表
+    procedure PersonnelPowerDsp();    //人员权限显示
+    Function SavePersonChange() : Integer;
+//    procedure GetPerssonelPermission(var PermissonStr : String);    //获取人员权限
+    procedure InitPermissonInFrmPersson();    //初始化权限
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPersonnelMangement: TFrmPersonnelMangement;
+
+Type
+  PermissionInfoRd = Record
+    Name : String[20];
+    Code : Integer;
+  end;
+Const
+  CntPermissionCount = 15;
+Const    //权限代码
+  CntPermIsBasiInfo     = 1 ;    //基本信息
+  CntPermIsMatrialSet   = 2 ;    //原料设置
+  CntPermIsTruckSet     = 3 ;    //车辆设置
+  CntPermIsProLineSet   = 4 ;    //生产流程设置
+  CntPermIsPersonMang   = 5;     //人员管理
+  CntPermIsRecipe       = 6 ;    //配比管理
+  CntPermIsProdTask     = 7 ;    //生产任务管理
+  CntCommunicate        = 8 ;    //通讯设置
+  CntSysConfig          = 9 ;    //设备配置
+  CntSignalDefine       = 10;    //信号定义
+  CntPermIsMaterialStock= 11;    //原料库存
+  CntPermIsProdData     = 12;    //生产数据查询
+  CntPermIsWeigCalZero  = 13;    //称值清零
+  CntPermIsWeigCalValue = 14;    //称值校准
+  CntPermIsPara         = 15;    //参数设置
+
+//  CntPermIsProdNotice   = 4 ;    //生产派车
+//  CntPermIsProdOper     = 5 ;    //砼生产操作
+//  CntPermIsEquipPara    = 6 ;    //工艺参数调整
+
+
+  CntPermIsDigtalProg   = 10;    //数字量编程
+Const
+  CntPermissionInfo : array[1..CntPermissionCount] of PermissionInfoRd
+    =(
+        (Name : '基本信息';
+         Code : CntPermIsBasiInfo  ),    //基本信息
+
+        (Name : '原料设置';
+         Code : CntPermIsMatrialSet),   //配比管理
+
+        (Name : '砼车设置';
+         Code : CntPermIsTruckSet),     //砼车设置
+
+        (Name : '生产流程';
+         Code : CntPermIsProLineSet),   //生产流程设置
+
+        (Name : '人员管理';
+         Code : CntPermIsPersonMang),   //人员管理
+
+        (Name : '配比管理';
+         Code : CntPermIsRecipe  ),     //配比管理
+
+        (Name : '生产任务';
+         Code : CntPermIsProdTask),     //生产任务管理
+
+        (Name : '生产派车';
+         Code : CntCommunicate),       //通讯设置
+
+        (Name : '设备配置';
+         Code : CntSysConfig ),        //设备配置
+
+        (Name : '信号定义';
+         Code : CntSignalDefine ),    //信号定义
+
+        (Name : '原料库存';
+         Code : CntPermIsMaterialStock),
+
+        (Name : '生产数据';
+         Code : CntPermIsProdData ),
+
+        (Name : '称值清零';
+         Code : CntPermIsWeigCalZero),
+
+        (Name : '称值校准';
+         Code : CntPermIsWeigCalValue),
+
+        (Name : '参数设置';
+         Code : CntPermIsPara )
+
+         
+//        (Name : '生产派车';
+//         Code : CntPermIsProdNotice),      //生产派车
+//        (Name : '砼生产操作';
+//         Code : CntPermIsProdOper),        //砼生产操作
+//        (Name : '工艺参数调整';
+//         Code : CntPermIsEquipPara),        //工艺参数调整
+//        (Name : '称值清零';
+//         Code : CntPermIsWeigCalZero),      //称值清零
+//        (Name : '称值校准';
+//         Code : CntPermIsWeigCalValue),    //称值校准
+//        (Name : '生产数据查询';
+//         Code : CntPermIsProdData),        //生产数据查询
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),       //数字量编程
+
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg),
+//        (Name : '数字量编程';
+//         Code : CntPermIsDigtalProg)
+
+     );
+Const
+  CntPermissonCode : array[1..CntPermissionCount] of String[1]
+    =('A' ,    //基本信息设置
+      'B' ,    //原料设置
+      'C' ,    //车辆设置
+      'D' ,    //生产流程设置
+      'E' ,    //人员管理
+      'F' ,    //配比管理
+      'G' ,    //生产任务管理
+      'H' ,    //通讯设置
+      'I' ,    //设备配置
+      'K' ,    //信号定义
+      'L' ,    //原料库存
+      'M' ,    //生产数据查询
+      'N' ,    //称值清零
+      'O' ,    //称值校准
+      'P'     //参数设置
+
+//      'N' ,    //生产派车
+//      'C' ,    //砼生产操作
+//      'E' ,    //工艺参数调整
+//      'Z' ,    //称值清零
+//      'V' ,    //称值校准
+//      'D' ,    //生产数据查询
+//      'P',      //数字量编程
+
+//      '',      //
+//      '',      //
+//      '',      //
+//      '',      //
+//      '',      //
+//      '',      //
+//      ''       //
+     );
+
+Const    //人员管理 编辑状态
+  CntPersonIsAddNew = 1;    //新添加的人员
+  CntPersonIsModify = 2;    //修改人员
+  
+var
+  SaveToDbEnableInUtPersonelManege : Boolean;
+
+  grdCanEdit : Boolean;    //表格能否编辑
+
+implementation
+
+uses UnitGlobeVar, UnitMain, UnitSetPassWord, UnitWeigherAttribute;
+
+{$R *.dfm}
+
+procedure TFrmPersonnelMangement.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+    FrmPersonnelMangementCrt := False;
+    Action := caFree;
+end;
+
+procedure TFrmPersonnelMangement.FormCreate(Sender: TObject);
+var
+    i : Integer;
+begin
+    ADOQuery1.Connection := FrmMain.ADOConnection;
+    SaveToDbEnableInUtPersonelManege := False;
+
+    grdPerson.Cells[0 , 0] := '序号';
+    grdPerson.Cells[1 , 0] := '登录名';
+    grdPerson.Cells[2 , 0] := 'ID' ;
+    grdPerson.Cells[3 , 0] := '权限代码';
+    grdPerson.Cells[4 , 0] := '编辑状态';
+    grdPerson.Cells[5 , 0] := '登陆密码';
+    //grdPerson.ColWidths[2] := 0;
+    //grdPerson.ColWidths[3] := 0;
+    //grdPerson.ColWidths[4] := 0;
+    //grdPerson.ColWidths[5] := 0;
+
+    grdPeimission.Cells[0 , 0] := '序号';
+    grdPeimission.Cells[1 , 0] := '操作名称';
+    grdPeimission.Cells[2 , 0] := '授权状态';
+    grdPeimission.Cells[3 , 0] := '操作项代码';
+    grdPeimission.ColWidths[3] := 0;
+    grdPeimission.RowCount     := CntPermissionCount +1;
+    //{权限列表}
+    for i:=1 to CntPermissionCount do //CntPermissionCount do
+    begin
+        grdPeimission.Cells[0 , i ] := inttostr(i);
+        grdPeimission.Cells[1 , i ] := CntPermissionInfo[i].Name;
+        grdPeimission.Cells[3 , i ] := IntToStr(CntPermissionInfo[i].Code);
+    end;
+
+    {初始化权限}
+    InitPermissonInFrmPersson();
+end;
+
+procedure TFrmPersonnelMangement.InitPermissonInFrmPersson();
+begin
+    if pos( '[' + CntPermissonCode[CntPermIsPersonMang] + 'e', PersonnelPermit ) >= 1 then
+    begin
+        sBtnAddPerson.Enabled := True;
+        sBtnDelPerson.Enabled := True;
+        sBitBtn2.Enabled      := True;
+        grdCanEdit            := True;
+        sBtnSaveExit.Caption  := '保存退出';
+    end
+    else
+    begin
+        sBtnAddPerson.Enabled := False;
+        sBtnDelPerson.Enabled := False;
+        sBitBtn2.Enabled      := False;
+        grdCanEdit            := False;
+        sBtnSaveExit.Caption  := '退出';
+    end;
+end;
+
+procedure TFrmPersonnelMangement.grdPersonGetAlignment(
+  Sender: TObject; ARow, ACol: Integer; var HAlign: TAlignment;
+  var VAlign: TVAlignment);
+begin
+    if (ARow = 0) or (ACol = 0) then HAlign := taCenter;
+end;
+
+procedure TFrmPersonnelMangement.grdPeimissionGetAlignment(
+  Sender: TObject; ARow, ACol: Integer; var HAlign: TAlignment;
+  var VAlign: TVAlignment);
+begin
+    if (ARow = 0) or (ACol = 0) then
+    begin
+        HAlign := taCenter;
+    end;
+end;
+
+procedure TFrmPersonnelMangement.FormShow(Sender: TObject);
+begin
+    DspPersonnelLst();
+    grdPerson.Row := 1;
+    PersonnelPowerDsp();
+end;
+
+procedure TFrmPersonnelMangement.DspPersonnelLst();
+var
+    Row : Integer;
+begin
+    ADOQuery1.Close;
+    ADOQuery1.SQL.Clear;
+    ADOquery1.SQL.Text := 'select * from Staff where State=' + '''' + '1' + '''';
+    ADOQuery1.Open;
+    Row := 1;
+    while not ADOQuery1.Eof do
+    begin
+        grdPerson.Cells[0 , Row] := Inttostr(Row);
+        grdPerson.Cells[1 , Row] := ADOQuery1.FieldByName('LoginNm').AsString;      //登录名
+        grdPerson.Cells[2 , Row] := ADOQuery1.FieldByName('StaffID').AsString;      //ID
+        grdPerson.Cells[3 , Row] := ADOQuery1.FieldByName('Permit').AsString;       //权限代码';
+        grdPerson.Cells[4 , Row] := '';
+        grdPerson.Cells[5 , Row] := ADOQuery1.FieldByName('Passwords').AsString;     //登录密码
+        ADOQuery1.Next;
+        Row := Row +1;
+    end;
+    grdPerson.RowCount := Row;
+end;
+
+procedure TFrmPersonnelMangement.sBtnAddPersonClick(Sender: TObject);
+var
+    Row : Integer;
+begin
+    Row := grdPerson.RowCount;
+    grdPerson.RowCount := Row + 1;
+    grdPerson.Cells[0, Row] := IntToStr(Row);
+    grdPerson.Cells[4, Row] := IntToStr(CntPersonIsAddNew);
+    grdPerson.Cells[5, Row] := '';
+    SaveToDbEnableInUtPersonelManege := True;
+end;
+
+procedure TFrmPersonnelMangement.grdPersonCanEditCell(Sender: TObject;
+  ARow, ACol: Integer; var CanEdit: Boolean);
+begin
+    if not grdCanEdit then CanEdit := False;
+    
+    if grdPerson.Cells[2 , ARow]= '1' then CanEdit := False;
+end;
+
+procedure TFrmPersonnelMangement.PersonnelPowerDsp();    //人员权限显示
+var
+    DspRow : Integer;
+    i : Integer;
+    PermCodeI : Integer;
+    PermcodeStr : String;
+begin
+    DspRow := grdPerson.Row ;
+    if grdPerson.Cells[2, DspRow] <> '' then
+    begin
+        if grdPerson.Cells[2, DspRow] = '1' then    //管理员
+        begin
+            for i:=1 to grdPeimission.RowCount do
+            begin
+                grdPeimission.Cells[2, i] := '允许编辑';
+            end;
+        end
+        else
+        begin
+            for i:=1 to grdPeimission.RowCount -1 do
+            begin
+                try
+                    PermCodeI := StrToInt(Trim(grdPeimission.Cells[3,i]));
+                except
+                    PermCodeI := 0;
+                end;
+
+                if (PermCodeI >= 1) and (PermCodeI <= CntPermissionCount) then
+                begin
+                    PermcodeStr := '[' + CntPermissonCode[PermCodeI];
+                    if Pos( PermcodeStr +'e', Trim(grdPerson.Cells[3, grdPerson.Row])) > 0 then
+                    begin
+                        grdPeimission.Cells[2, i] := '允许操作' ;
+                    end
+                    else if Pos( PermcodeStr , Trim(grdPerson.Cells[3, grdPerson.Row])) > 0 then
+                    begin
+                        grdPeimission.Cells[2, i] := '允许查看' ;
+                    end
+                    else
+                    begin
+                        grdPeimission.Cells[2, i] := '禁止操作';
+                    end;
+                end
+                else
+                begin
+                    Showmessage('无效的操作项，行：' + inttostr(i)) ;
+                    Continue;
+                end;
+            end;
+        end;
+    end
+    else
+    begin
+        for i:=1 to grdPeimission.RowCount do
+        begin
+            grdPeimission.Cells[2, i] := '禁止操作';
+        end;
+    end;
+end;
+
+procedure TFrmPersonnelMangement.grdPersonClick(Sender: TObject);
+begin
+    PersonnelPowerDsp();    //人员权限显示
+end;
+
+procedure TFrmPersonnelMangement.grdPeimissionCanEditCell(Sender: TObject;
+  ARow, ACol: Integer; var CanEdit: Boolean);
+begin
+    if grdCanEdit then
+    begin
+        if ACol <> 2 then
+        begin
+            CanEdit := False;
+        end
+        else
+        begin
+            if grdPerson.Cells[2, grdPerson.Row] = '1' then
+                CanEdit := False
+            else
+                CanEdit := True;
+        end;
+    end
+    else
+    begin
+        CanEdit := False;
+    end;
+end;
+
+procedure TFrmPersonnelMangement.grdPeimissionGetEditorType(
+  Sender: TObject; ACol, ARow: Integer; var AEditor: TEditorType);
+var
+    SelPermissonCode : Integer;
+begin
+    if Acol = 2 then
+    begin
+        AEditor := edComboList;
+        grdPeimission.ClearComboString;
+
+        try
+            SelPermissonCode := StrToInt(Trim(grdPeimission.Cells[3, ARow]));
+        except
+            SelPermissonCode := 0;
+        end;
+
+        case SelPermissonCode of
+            0:
+            begin
+                ;
+            end;
+
+            CntPermIsMaterialStock ,    //原料库存
+            CntPermIsProdData      ,     //生产数据查询
+            CntPermIsWeigCalZero   ,    //称值清零
+            CntPermIsWeigCalValue  :    //称值校准
+            begin
+                grdPeimission.AddComboString('禁止操作');
+                grdPeimission.AddComboString('允许操作');
+            end;
+
+            else
+            begin
+                grdPeimission.AddComboString('禁止操作');
+                grdPeimission.AddComboString('允许查看');
+                grdPeimission.AddComboString('允许操作');
+            end;
+        end;
+    end; 
+end;
+
+procedure TFrmPersonnelMangement.grdPeimissionCellsChanged(
+  Sender: TObject; R: TRect);
+var
+    permission : String;
+    EditPermissionCode : String;
+    grdPeimissionRow : integer;
+    editPermissonNum : integer;
+    editPersonGrdRow : integer;
+    editNewPermson   : string;
+    temppermson      : string;
+    firstChrPos,
+    endChrPos       : integer;
+begin
+    if grdPerson.Cells[4, grdPerson.Row] = '' then
+    begin
+        grdPerson.Cells[4, grdPerson.Row] := IntToStr(CntPersonIsModify) ;
+    end;
+    SaveToDbEnableInUtPersonelManege := True;
+
+    // 更新权限
+    permission := grdPerson.Cells[3, grdPerson.Row];
+
+    grdPeimissionRow := grdPeimission.Row;
+    editPermissonNum := strToInt(grdPeimission.cells[3, grdPeimissionRow]);
+    EditPermissionCode := '[' + CntPermissonCode[editPermissonNum];
+
+    editPersonGrdRow := grdPerson.Row ;
+
+    editNewPermson := trim(grdPeimission.Cells[2 , grdPeimissionRow]) ;
+
+    if editNewPermson = '禁止操作' then
+    begin
+        firstChrPos := pos(EditPermissionCode, permission) ;
+        if firstChrPos >=1 then
+        begin
+            tempPermson := permission;
+            delete(tempPermson, 1, firstChrPos -1);
+            endChrPos := pos(']', tempPermson);
+            delete( permission, firstChrPos, endChrPos );
+            grdPerson.Cells[3, editPersonGrdRow] := permission;
+        end;
+    end
+    else if editNewPermson = '允许查看' then
+    begin
+        firstChrPos := pos(EditPermissionCode, permission) ;
+        if firstChrPos >=1 then
+        begin
+            tempPermson := permission;
+            delete(tempPermson, 1, firstChrPos -1);
+            endChrPos := pos(']', tempPermson);
+            delete( permission, firstChrPos, endChrPos );
+        end;
+        permission := permission + '[' + CntPermissonCode[editPermissonNum] + ']';
+        grdPerson.Cells[3, editPersonGrdRow] := permission;
+    end
+    else if editNewPermson = '允许操作' then
+    begin
+        firstChrPos := pos(EditPermissionCode, permission) ;
+        if firstChrPos >=1 then
+        begin
+            tempPermson := permission;
+            delete(tempPermson, 1, firstChrPos -1);
+            endChrPos := pos(']', tempPermson);
+            delete( permission, firstChrPos, endChrPos );
+        end;
+        permission := permission + '[' + CntPermissonCode[editPermissonNum] + 'e]';
+        grdPerson.Cells[3, editPersonGrdRow] := permission;
+    end
+    else
+    begin
+        Showmessage('无效的授权内容');
+    end;
+
+end;
+
+procedure TFrmPersonnelMangement.sBtnSaveExitClick(Sender: TObject);
+var
+    SaveResult : Integer;
+begin
+    if grdCanEdit then
+    begin
+        SaveResult := SavePersonChange();
+        if SaveResult = 0 then
+        begin
+            Self.Close;
+        end
+        else
+        begin
+            Showmessage('保存失败!');
+        end;
+    end
+    else
+    begin
+        Self.Close;
+    end;
+end;
+
+Function TFrmPersonnelMangement.SavePersonChange() : Integer;
+//说明：Result = 0：保存成功
+//      Result = 1：无效的登录账号
+//      Resule = 2：登陆账号已经存在
+//      Result = 3：数据库中添加失败
+//      Result = 4：更新数据库失败
+var
+    i,k : Integer;
+    EditCode : Integer;
+    EXResult : Integer;
+    PermissionStr : String;
+    NewLoginNm : String;
+begin
+    EXResult := 0;
+    if SaveToDbEnableInUtPersonelManege then
+    begin
+        for i:=1 to grdPerson.RowCount -1 do
+        begin
+            if Trim(grdPerson.Cells[4, i]) <> '' then    //该行需要保存
+            begin
+                try
+                    EditCode := StrToInt( Trim(grdPerson.Cells[4, i]) ) ;
+                except
+                    EditCode := 0;
+                end;
+
+//                {整理权限设置}
+//                GetPerssonelPermission( PermissionStr );
+
+                PermissionStr := grdPerson.Cells[3 ,i];
+
+                case EditCode of
+                    CntPersonIsAddNew :    //新添加的人员
+                    begin
+                        NewLoginNm := Trim(grdPerson.Cells[1, i]);
+                        if NewLoginNm = '' then
+                        begin
+                            Showmessage('无效的登录账号，行' + Inttostr(i));
+                            ExResult := 1;
+                            Break;
+                        end;
+
+                        ADOQuery1.Close;
+                        ADOQuery1.SQL.Clear;
+                        ADOQuery1.SQL.Text := 'select StaffID from Staff where LoginNm=' + '''' + NewLoginNm + '''';
+                        ADOQuery1.Open;
+                        if not ADOQuery1.Eof then
+                        begin
+                            Showmessage('登录账号已经存在，行' + inttostr(i) );
+                            ExResult := 2;
+                            Break;
+                        end;
+
+                        Try
+                            FrmMain.ADOConnection.BeginTrans;
+                            ADOQuery1.Close;
+                            ADOQuery1.SQL.Clear;
+                            ADOQuery1.SQL.Text := 'insert into Staff (LoginNm'
+                                                + ',Permit'
+                                                + ',state'
+                                                + ',Passwords'
+                                                + ')'
+                                                + ' values (' + '''' + NewLoginNm + ''''
+                                                + ', ' + '''' + PermissionStr + ''''
+                                                + ', ' + '''' + '1' + ''''
+                                                + ', ' + '''' + Trim(grdPerson.Cells[5, i]) + ''''
+                                                + ')';
+                            ADOQuery1.ExecSQL;
+                            FrmMain.ADOConnection.CommitTrans;
+                        except
+                            FrmMain.ADOConnection.RollbackTrans;
+                            ExResult := 3;
+                            break;
+                        end;
+
+                    end;
+
+                    CntPersonIsModify :    //修改人员
+                    begin
+                        NewLoginNm := Trim(grdPerson.Cells[1, i]);
+                        if NewLoginNm = '' then
+                        begin
+                            Showmessage('无效的登录账号，行' + Inttostr(i));
+                            ExResult := 1;
+                            Break;
+                        end;
+
+                        for k:=1 to grdPerson.RowCount -1 do
+                        begin
+                            if (Trim(grdPerson.Cells[1, k]) = NewLoginNm ) and (i <> k) then
+                            begin
+                                Showmessage('相同的登录名 行' + inttostr(i) + '行' + inttostr(k));
+                                ExResult := 2;
+                                break;
+                            end;
+                        end;
+                        if ExResult <> 0 then Break;
+
+                        Try
+                            FrmMain.ADOConnection.BeginTrans;
+                            ADOQuery1.Close;
+                            ADOQuery1.SQL.Clear;
+                            ADOQuery1.SQL.Text := 'update Staff set'
+                                                + ' LoginNm =' + '''' + NewLoginNm + ''''
+                                                + ',Permit=' + '''' + PermissionStr + ''''
+                                                + ',Passwords=' + '''' + Trim(grdPerson.Cells[5, i]) + ''''
+                                                + ' where StaffID ='   + Trim(grdPerson.Cells[2,i]);
+                            ADOQuery1.ExecSQL;
+                            FrmMain.ADOConnection.CommitTrans;
+                        except
+                            FrmMain.ADOConnection.RollbackTrans;
+                            ExResult := 4;
+                            Break;
+                        end;
+                    end;
+
+                    Else
+                    begin
+
+                    end;
+
+                end;
+            end;
+        end;
+    end;
+
+    Result := ExResult ;
+end;
+
+//procedure TFrmPersonnelMangement.GetPerssonelPermission(var PermissonStr : String);    //获取人员权限
+//var
+//    i : Integer;
+//    TempSrt : String;
+//    PermCode : Integer;
+//begin
+//    TempSrt := '';
+//    for i:=1 to grdPeimission.RowCount do
+//    begin
+//        if Trim( grdPeimission.Cells[3, i] ) <> '' then
+//        begin
+//            try
+//                PermCode := StrToInt( Trim( grdPeimission.Cells[3, i] ) );
+//            except
+//                PermCode := 0;
+//            end;
+//
+//            if (PermCode >=1) and (PermCode <=CntPermissionCount) then
+//            begin
+//                if grdPeimission.Cells[2, i] <> '禁止操作' then
+//                begin
+//                    TempSrt := TempSrt + '[' + CntPermissonCode[PermCode];
+//                    if grdPeimission.Cells[2, i] = '允许操作' then
+//                        TempSrt := TempSrt + 'e]'
+//                    else
+//                        TempSrt := TempSrt + ']';
+//                end;
+//            end
+//            else
+//            begin
+//                Showmessage('预定义以外的操作事项，行：' + inttostr(i));
+//            end;
+//        end;
+//    end;
+//    PermissonStr := TempSrt ;
+//end;
+
+procedure TFrmPersonnelMangement.sBitBtn2Click(Sender: TObject);
+begin
+    if not FrmSetPassWordCrt then
+    begin
+        FrmSetPassWord := TFrmSetPassWord.Create(Nil);
+        FrmSetPassWordCrt := True;
+    end;
+    FrmEditMode := FrmEdtMdIsSetPasdForPersonnelMange ;    //人员管理设置密码
+    FrmSetPassWord.ShowModal ;
+end;
+
+procedure TFrmPersonnelMangement.grdPersonCellsChanged(
+  Sender: TObject; R: TRect);
+begin
+    if grdPerson.Cells[4, grdPerson.Row] = '' then
+    begin
+        grdPerson.Cells[4, grdPerson.Row] := IntToStr(CntPersonIsModify) ;
+    end;
+    SaveToDbEnableInUtPersonelManege := True;
+end;
+
+procedure TFrmPersonnelMangement.sBtnDelPersonClick(Sender: TObject);
+begin
+    if Messagebox(Getfocus, Pchar('确定要删除用户 "' + Trim(grdPerson.Cells[1, grdPerson.Row]) + '" 吗？'), '询问信息', MB_YESNO) = idYes then
+    begin
+        if Trim(grdPerson.Cells[2, grdPerson.Row]) = '1' then
+        begin
+            Showmessage('系统默认管理员，不能删除!');
+            exit;
+        end;
+        Try
+            FrmMain.ADOConnection.BeginTrans;
+            ADOquery1.Close;
+            ADOQuery1.SQL.Clear;
+            ADOQuery1.SQL.Text := 'delete from Staff where StaffID=' + Trim(grdPerson.Cells[2, grdPerson.Row]);
+            ADOQuery1.ExecSQL;
+            FrmMain.ADOConnection.CommitTrans;
+        except
+            FrmMain.ADOConnection.RollbackTrans;
+            Showmessage('删除失败!');
+        end;
+        DspPersonnelLst();
+        grdPerson.Row := 1;
+        PersonnelPowerDsp();
+    end;
+end;
+
+end.

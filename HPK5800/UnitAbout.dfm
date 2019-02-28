@@ -1,0 +1,109 @@
+object FrmAbout: TFrmAbout
+  Left = 598
+  Top = 477
+  Width = 514
+  Height = 237
+  Caption = #20851#20110#31995#32479
+  Color = 15784883
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 0
+    Width = 481
+    Height = 193
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -14
+    Font.Name = #23435#20307
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    object RzLabel1: TRzLabel
+      Left = 114
+      Top = 59
+      Width = 214
+      Height = 21
+      Caption = 'Ver'#65306'20181204 1400'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = #23435#20307
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 64
+      Top = 16
+      Width = 338
+      Height = 29
+      Caption = 'TSC2016 '#30780#29983#20135#31649#29702#31995#32479
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -29
+      Font.Name = #23435#20307
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LbProjectNm: TLabel
+      Left = 48
+      Top = 96
+      Width = 385
+      Height = 19
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'LbProjectNm'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = #23435#20307
+      Font.Style = []
+      ParentFont = False
+    end
+    object LbProjectId: TLabel
+      Left = 48
+      Top = 128
+      Width = 385
+      Height = 19
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'LbProjectId'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = #23435#20307
+      Font.Style = []
+      ParentFont = False
+    end
+    object LbDbVer: TLabel
+      Left = 48
+      Top = 160
+      Width = 385
+      Height = 19
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'LbDbVer'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = #23435#20307
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object ADOQuery1: TADOQuery
+    Parameters = <>
+    Left = 8
+    Top = 8
+  end
+end

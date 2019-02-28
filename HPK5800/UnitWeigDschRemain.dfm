@@ -1,0 +1,114 @@
+object FrmWeigDschRemain: TFrmWeigDschRemain
+  Left = 725
+  Top = 423
+  BorderStyle = bsDialog
+  Caption = #31216#21368#26009#25187#26009
+  ClientHeight = 136
+  ClientWidth = 309
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 96
+    Top = 16
+    Width = 113
+    Height = 20
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Label1'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = #23435#20307
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 40
+    Width = 297
+    Height = 49
+    TabOrder = 0
+    object Label2: TLabel
+      Left = 48
+      Top = 19
+      Width = 56
+      Height = 14
+      Caption = #25187#26009#37325#37327
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -14
+      Font.Name = #23435#20307
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 200
+      Top = 19
+      Width = 14
+      Height = 14
+      Caption = 'kg'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -14
+      Font.Name = #23435#20307
+      Font.Style = []
+      ParentFont = False
+    end
+    object Edit1: TEdit
+      Left = 120
+      Top = 16
+      Width = 73
+      Height = 22
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -14
+      Font.Name = #23435#20307
+      Font.Style = [fsBold]
+      ImeName = #20013#25991' ('#31616#20307') - '#25628#29399#25340#38899#36755#20837#27861
+      ParentFont = False
+      TabOrder = 0
+      Text = '0'
+      OnKeyPress = Edit1KeyPress
+    end
+  end
+  object sBitBtn1: TsBitBtn
+    Left = 56
+    Top = 104
+    Width = 75
+    Height = 25
+    Caption = #30830#23450
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -14
+    Font.Name = #23435#20307
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    OnClick = sBitBtn1Click
+  end
+  object sBitBtn2: TsBitBtn
+    Left = 176
+    Top = 103
+    Width = 75
+    Height = 25
+    Caption = #21462#28040
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -14
+    Font.Name = #23435#20307
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    OnClick = sBitBtn2Click
+  end
+end
